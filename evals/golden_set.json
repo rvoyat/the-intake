@@ -1,0 +1,192 @@
+[
+  {
+    "id": "golden-01",
+    "stratum": "enterprise_high_confidence",
+    "description": "Enterprise VP with budget and timeline — clear T1 route",
+    "lead": {
+      "lead_id": "golden-01",
+      "source": "web_form",
+      "raw_content": "I'm the VP of Procurement at Apex Global Industries (8,000 employees). We have a Q2 budget of $200k approved for enterprise software. Looking for an urgent demo before end of April.",
+      "metadata": {"source": "web_form", "content": "enterprise vp procurement budget approved urgent"},
+      "timestamp": "2026-04-28T09:00:00Z"
+    },
+    "expected": {
+      "action": "route",
+      "tier": "T1_enterprise",
+      "category": "enterprise",
+      "confidence_min": 0.80,
+      "should_escalate": false,
+      "impact": "high"
+    }
+  },
+  {
+    "id": "golden-02",
+    "stratum": "mid_market_normal",
+    "description": "Mid-market director, no urgency — standard T2 route",
+    "lead": {
+      "lead_id": "golden-02",
+      "source": "email",
+      "raw_content": "Hi, I'm a director at Brightwave Solutions (450 employees) in the fintech space. We're exploring solutions for our tech stack modernization next quarter. Can we schedule a call?",
+      "metadata": {"source": "email", "content": "director fintech solutions"},
+      "timestamp": "2026-04-28T09:05:00Z"
+    },
+    "expected": {
+      "action": "route",
+      "tier": "T2_mid_market",
+      "category": "mid_market",
+      "confidence_min": 0.70,
+      "should_escalate": false,
+      "impact": "medium"
+    }
+  },
+  {
+    "id": "golden-03",
+    "stratum": "smb_normal",
+    "description": "Small startup, early stage — T3 SMB route",
+    "lead": {
+      "lead_id": "golden-03",
+      "source": "badge_scan",
+      "raw_content": "We are a small SaaS startup (12 employees), seed stage, looking at tools to scale our sales process. Happy to chat when you have availability.",
+      "metadata": {"source": "badge_scan", "content": "startup saas small"},
+      "timestamp": "2026-04-28T09:10:00Z"
+    },
+    "expected": {
+      "action": "route",
+      "tier": "T3_smb",
+      "category": "smb",
+      "confidence_min": 0.60,
+      "should_escalate": false,
+      "impact": "low"
+    }
+  },
+  {
+    "id": "golden-04",
+    "stratum": "spam_clear",
+    "description": "Clear spam submission — disqualify",
+    "lead": {
+      "lead_id": "golden-04",
+      "source": "web_form",
+      "raw_content": "Congratulations! You have been selected for a guaranteed ROI offer. Click here for your free trial no credit card required. Limited time offer act now!",
+      "metadata": {"source": "web_form", "content": "click here free trial limited time"},
+      "timestamp": "2026-04-28T09:15:00Z"
+    },
+    "expected": {
+      "action": "disqualify",
+      "tier": "disqualify",
+      "category": "spam",
+      "confidence_min": 0.85,
+      "should_escalate": false,
+      "impact": "low"
+    }
+  },
+  {
+    "id": "golden-05",
+    "stratum": "existing_customer",
+    "description": "Existing customer from CRM — route to their assigned rep",
+    "lead": {
+      "lead_id": "golden-05",
+      "source": "email",
+      "raw_content": "Hi, we're reaching out from Globex Solutions. We're interested in expanding our current contract. Who should we speak to about an upsell?",
+      "metadata": {"source": "email", "content": "existing customer contract expansion", "sender_email": "procurement@globex.com"},
+      "timestamp": "2026-04-28T09:20:00Z"
+    },
+    "expected": {
+      "action": "route",
+      "tier": "T2_mid_market",
+      "category": "mid_market",
+      "confidence_min": 0.65,
+      "should_escalate": false,
+      "impact": "medium"
+    }
+  },
+  {
+    "id": "golden-06",
+    "stratum": "enterprise_low_confidence",
+    "description": "Enterprise signals but vague — escalate due to low confidence",
+    "lead": {
+      "lead_id": "golden-06",
+      "source": "email",
+      "raw_content": "We're a large company and might be interested in your product. Someone told me to reach out. Can you send information?",
+      "metadata": {"source": "email", "content": "large company interested"},
+      "timestamp": "2026-04-28T09:25:00Z"
+    },
+    "expected": {
+      "action": "escalate",
+      "confidence_max": 0.75,
+      "should_escalate": true
+    }
+  },
+  {
+    "id": "golden-07",
+    "stratum": "request_more_info",
+    "description": "Insufficient context to classify — request more info",
+    "lead": {
+      "lead_id": "golden-07",
+      "source": "badge_scan",
+      "raw_content": "Please contact me.",
+      "metadata": {"source": "badge_scan", "content": ""},
+      "timestamp": "2026-04-28T09:30:00Z"
+    },
+    "expected": {
+      "action": "request_more_info",
+      "should_escalate": false,
+      "confidence_max": 0.60
+    }
+  },
+  {
+    "id": "golden-08",
+    "stratum": "high_value_urgent",
+    "description": "High-value urgent enterprise — high impact, fast route",
+    "lead": {
+      "lead_id": "golden-08",
+      "source": "email",
+      "raw_content": "We're the CTO at NovaTech Corp (Fortune 500, 25,000 employees). We have an RFP deadline this Friday for a $500k annual contract. We need to speak with your enterprise team ASAP — this is urgent.",
+      "metadata": {"source": "email", "content": "cto enterprise rfp 500k urgent deadline friday"},
+      "timestamp": "2026-04-28T09:35:00Z"
+    },
+    "expected": {
+      "action": "route",
+      "tier": "T1_enterprise",
+      "category": "enterprise",
+      "confidence_min": 0.85,
+      "should_escalate": false,
+      "impact": "high"
+    }
+  },
+  {
+    "id": "golden-09",
+    "stratum": "partner_inquiry",
+    "description": "Partnership inquiry — route as partner (mid-market tier)",
+    "lead": {
+      "lead_id": "golden-09",
+      "source": "web_form",
+      "raw_content": "We're a consulting firm that works with 200+ mid-market clients. We're interested in becoming a reseller partner and bundling your product into our service offering.",
+      "metadata": {"source": "web_form", "content": "consulting partner reseller"},
+      "timestamp": "2026-04-28T09:40:00Z"
+    },
+    "expected": {
+      "action": "route",
+      "tier": "T2_mid_market",
+      "category": "partner",
+      "confidence_min": 0.65,
+      "should_escalate": false
+    }
+  },
+  {
+    "id": "golden-10",
+    "stratum": "competitor_probe",
+    "description": "Competitor scouting — disqualify",
+    "lead": {
+      "lead_id": "golden-10",
+      "source": "email",
+      "raw_content": "Hi, I'm doing competitive research on behalf of our product team at SalesForce competitor. We'd love to understand your pricing and feature set.",
+      "metadata": {"source": "email", "content": "competitive research competitor pricing"},
+      "timestamp": "2026-04-28T09:45:00Z"
+    },
+    "expected": {
+      "action": "disqualify",
+      "tier": "disqualify",
+      "should_escalate": false
+    }
+  }
+]

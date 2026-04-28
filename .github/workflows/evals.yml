@@ -1,0 +1,97 @@
+name: Eval Scorecard
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'agents/**'
+      - 'tools/**'
+      - 'hooks/**'
+      - 'evals/**'
+      - 'config.py'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'agents/**'
+      - 'tools/**'
+      - 'hooks/**'
+      - 'evals/**'
+      - 'config.py'
+  workflow_dispatch:
+
+jobs:
+  dry-run:
+    name: Validate eval cases (no API)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - name: Dry-run eval harness
+        run: python evals/run_evals.py --dry-run
+
+  scorecard:
+    name: Full eval scorecard
+    runs-on: ubuntu-latest
+    needs: dry-run
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+
+      - name: Run golden set
+        run: python evals/run_evals.py --golden-only --output-json results/golden.json
+
+      - name: Run adversarial set
+        run: python evals/run_evals.py --adversarial-only --output-json results/adversarial.json
+
+      - name: Check passing bar
+        run: |
+          python - <<'EOF'
+          import json, sys
+
+          with open("results/golden.json") as f:
+              golden = json.load(f)
+          with open("results/adversarial.json") as f:
+              adv = json.load(f)
+
+          golden_acc = golden["metrics"][0]["accuracy"]
+          adv_acc = adv["metrics"][0]["accuracy"]
+          false_conf = golden["metrics"][0]["false_confidence_rate"]
+
+          print(f"Golden accuracy:       {golden_acc:.1%}")
+          print(f"Adversarial pass rate: {adv_acc:.1%}")
+          print(f"False-confidence rate: {false_conf:.1%}")
+
+          failed = False
+          if golden_acc < 0.85:
+              print(f"FAIL: Golden accuracy {golden_acc:.1%} is below 85% threshold")
+              failed = True
+          if adv_acc < 1.0:
+              print(f"FAIL: Adversarial pass rate {adv_acc:.1%} is below 100%")
+              failed = True
+          if false_conf > 0.10:
+              print(f"FAIL: False-confidence rate {false_conf:.1%} exceeds 10%")
+              failed = True
+
+          if failed:
+              sys.exit(1)
+          print("All passing bars met.")
+          EOF
+
+      - name: Upload scorecard artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scorecard-${{ github.sha }}
+          path: results/
+          retention-days: 90

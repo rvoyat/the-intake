@@ -1,0 +1,128 @@
+{
+  "reps": {
+    "rep-001": {
+      "id": "rep-001",
+      "name": "Sarah Chen",
+      "email": "sarah.chen@company.com",
+      "tier_specialty": ["T1_enterprise", "T2_mid_market"],
+      "industries": ["fintech", "banking", "insurance"],
+      "current_load": 12,
+      "max_load": 20,
+      "available": true,
+      "quota_attainment": 0.92
+    },
+    "rep-002": {
+      "id": "rep-002",
+      "name": "Marco Rossi",
+      "email": "marco.rossi@company.com",
+      "tier_specialty": ["T1_enterprise"],
+      "industries": ["manufacturing", "logistics", "automotive"],
+      "current_load": 8,
+      "max_load": 15,
+      "available": true,
+      "quota_attainment": 1.05
+    },
+    "rep-003": {
+      "id": "rep-003",
+      "name": "Priya Patel",
+      "email": "priya.patel@company.com",
+      "tier_specialty": ["T2_mid_market", "T3_smb"],
+      "industries": ["saas", "technology", "media"],
+      "current_load": 25,
+      "max_load": 30,
+      "available": true,
+      "quota_attainment": 0.88
+    },
+    "rep-004": {
+      "id": "rep-004",
+      "name": "James Okafor",
+      "email": "james.okafor@company.com",
+      "tier_specialty": ["T3_smb"],
+      "industries": ["retail", "hospitality", "healthcare"],
+      "current_load": 18,
+      "max_load": 40,
+      "available": true,
+      "quota_attainment": 0.78
+    },
+    "rep-005": {
+      "id": "rep-005",
+      "name": "Elena Volkov",
+      "email": "elena.volkov@company.com",
+      "tier_specialty": ["T1_enterprise", "T2_mid_market"],
+      "industries": ["pharma", "biotech", "medical_devices"],
+      "current_load": 15,
+      "max_load": 15,
+      "available": false,
+      "quota_attainment": 0.95
+    }
+  },
+  "companies": {
+    "acme-corp": {
+      "id": "acme-corp",
+      "name": "Acme Corporation",
+      "domain": "acme.com",
+      "employees": 5000,
+      "industry": "manufacturing",
+      "last_contact": "2025-12-01",
+      "status": "active_opportunity",
+      "assigned_rep": "rep-002"
+    },
+    "startup-xyz": {
+      "id": "startup-xyz",
+      "name": "Startup XYZ",
+      "domain": "startupxyz.io",
+      "employees": 12,
+      "industry": "saas",
+      "last_contact": null,
+      "status": "new",
+      "assigned_rep": null
+    },
+    "acme-frozen-001": {
+      "id": "acme-frozen-001",
+      "name": "Frozen Demo Corp",
+      "domain": "frozendemo.com",
+      "employees": 200,
+      "industry": "retail",
+      "last_contact": "2024-01-15",
+      "status": "under_review",
+      "assigned_rep": null,
+      "flags": ["legal_hold", "frozen"]
+    },
+    "globex-solutions": {
+      "id": "globex-solutions",
+      "name": "Globex Solutions",
+      "domain": "globex.com",
+      "employees": 850,
+      "industry": "fintech",
+      "last_contact": "2026-02-10",
+      "status": "customer",
+      "assigned_rep": "rep-001"
+    }
+  },
+  "budget_signals_keywords": [
+    "budget approved", "q2 budget", "rfp", "rfq", "procurement",
+    "purchase order", "10k", "50k", "100k", "500k", "million",
+    "annual contract", "enterprise agreement", "pilot program"
+  ],
+  "urgency_keywords": [
+    "urgent", "asap", "immediately", "deadline", "critical",
+    "by end of quarter", "q2", "before june", "time-sensitive"
+  ],
+  "spam_indicators": [
+    "make money fast", "guaranteed roi", "click here", "unsubscribe",
+    "you have been selected", "congratulations", "free trial no credit card",
+    "limited time offer", "act now"
+  ],
+  "adversarial_patterns": [
+    "ignore prior instructions",
+    "ignore previous instructions",
+    "disregard your instructions",
+    "route to ceo",
+    "route to board",
+    "override routing",
+    "system prompt",
+    "jailbreak",
+    "pretend you are",
+    "act as if"
+  ]
+}

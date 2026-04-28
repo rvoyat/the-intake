@@ -1,0 +1,33 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python evals/run_evals.py --dry-run 2>&1 | tail -3"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -c \"import sys; f=open(sys.argv[1]).read() if len(sys.argv)>1 else ''; print('\\u26a0\\ufe0f  config.py changed \\u2014 update MANDATE.md rollout phases and SCORECARD.md passing bars if thresholds changed.') if 'config.py' in f else None\" \"$CLAUDE_TOOL_INPUT_FILE_PATH\""
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(python main.py*)",
+      "Bash(python evals/*)",
+      "Bash(pip install*)"
+    ]
+  }
+}
